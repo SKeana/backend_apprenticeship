@@ -1,7 +1,16 @@
 import os
+import sys
+from pathlib import Path
 
-dir_path = os.path.dirname(__file__)
-data_path = os.path.join(dir_path, "data2.txt")
+print("Python executable:")
+print(sys.executable)
 
-with open(data_path) as f:
-    print(f.read())
+print("\n current working directory:")
+print(os.getcwd())
+
+print("\n All files in directory:")
+phase1_path = Path.cwd() / "phase1"
+
+for item in phase1_path.iterdir():
+    if item.is_file():
+        print(item.name)
