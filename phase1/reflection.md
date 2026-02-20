@@ -111,3 +111,6 @@ Python executable:
 /home/skean/codingProjects/pythonProjects/backend_apprenticeship
 
 All files in current working directory:
+
+---
+What happens was before the changes that were made in probe.py, the code was trying to fine phase1/phase1 and as ther wasn't a directory inside of phas1 call phase1 there was an error but after the changes to probe.py it is looking for the files in the path with cwd then show the files inside of that directory
