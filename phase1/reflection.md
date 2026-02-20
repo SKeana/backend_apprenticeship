@@ -114,3 +114,124 @@ All files in current working directory:
 
 ---
 What happens was before the changes that were made in probe.py, the code was trying to fine phase1/phase1 and as ther wasn't a directory inside of phas1 call phase1 there was an error but after the changes to probe.py it is looking for the files in the path with cwd then show the files inside of that directory
+`
+Yes.
+
+That is correct.
+
+Now I’m going to tighten your explanation into backend precision:
+
+Earlier, the code did:
+
+Path.cwd() / "phase1"
+
+So when you were already inside phase1, the program constructed:
+
+/backend_apprenticeship/phase1/phase1
+
+That directory does not exist.
+
+The bug was not Python.
+The bug was assuming the current working directory was always the project root.
+
+After the change, you removed the assumption and asked the system directly:
+
+“What directory am I currently in?”
+
+That is stable logic.
+
+Phase 1 Probe Status
+
+You now understand:
+
+Shell resolves script path.
+
+Python resolves file paths inside the script.
+
+Path.cwd() depends on execution location.
+
+Path(__file__).parent depends on file location.
+
+Hardcoding folder names creates fragile code.
+
+That is real foundational backend knowledge.
+
+You’re not just typing Python anymore.
+You’re reasoning about execution environments.
+
+That shift matters.
+
+Quick Assessment
+
+You handled:
+
+Confusion
+
+Frustration
+
+A real filesystem bug
+
+A logic assumption bug
+
+Silent output
+
+Path resolution errors
+
+And you didn’t quit.
+
+That’s what I’m watching for.
+
+Next Phase: Functions (where backend thinking actually starts)
+
+Up until now you’ve been writing scripts.
+
+Now we move to:
+
+Inputs → transformation → outputs
+
+Predictable behavior
+
+Separation of concerns
+
+You are going to build something small but structured.
+
+Create:
+
+phase1/functions_probe.py
+
+The task:
+
+Write a function:
+
+describe_environment()
+
+When called, it should:
+
+Return (not print) a dictionary containing:
+
+python_executable
+
+current_working_directory
+
+script_directory
+
+files_in_current_directory (list)
+
+Then at the bottom of the file:
+
+Call the function
+
+Print the returned dictionary cleanly
+
+No hints beyond that.
+
+This is the first real backend-style exercise.
+
+When done, paste:
+
+The function code
+
+The output
+
+We’re stepping up now.
+`
