@@ -1,0 +1,3 @@
+here is the output:
+skean@Shaun:~/codingProjects/pythonProjects/backend_apprenticeship/phase1$ python3 functions_probe.py
+{'python_executable\n': '/usr/bin/python3', 'working_directory\n': '/home/skean/codingProjects/pythonProjects/backend_apprenticeship/phase1', 'files_in_working_directory\n': ['probe.py', 'reflection.md', 'data2.txt', 'functions_probe.py', 'reflection2.md'], 'file_in_current work directory (list)\n': ['probe.py', 'reflection.md', 'data2.txt', 'functions_probe.py', 'reflection2.md']}
