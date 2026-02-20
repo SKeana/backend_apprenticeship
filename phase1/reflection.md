@@ -98,3 +98,16 @@ phase1_path = Path.cwd() / "phase1"
 for item in phase1_path.iterdir():
     if item.is_file():
         print(item.name)
+
+---
+here is the output after making the changes in probe.py
+skean@Shaun:~/codingProjects/pythonProjects/backend_apprenticeship$ python3 probe.py
+python3: can't open file '/home/skean/codingProjects/pythonProjects/backend_apprenticeship/probe.py': [Errno 2] No such file or directory
+skean@Shaun:~/codingProjects/pythonProjects/backend_apprenticeship$ python3 phase1/probe.py
+Python executable:
+/usr/bin/python3
+
+ current working directory:
+/home/skean/codingProjects/pythonProjects/backend_apprenticeship
+
+All files in current working directory:

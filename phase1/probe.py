@@ -8,9 +8,8 @@ print(sys.executable)
 print("\n current working directory:")
 print(os.getcwd())
 
-print("\n All files in directory:")
-phase1_path = Path.cwd() / "phase1"
+print("\nAll files in current working directory:")
 
-for item in phase1_path.iterdir():
+for item in Path.cwd().iterdir():
     if item.is_file():
         print(item.name)
