@@ -8,4 +8,7 @@ def describe_environment():
         "script_directory": str(Path(__file__).parent),
         "files_in_current_directory": [f.name for f in Path.cwd().iterdir() if f.is_file()],
     }
-print(describe_environment())
+env = describe_environment()
+print("Environment description:")
+for key, value in env.items():
+    print(f"{key}: {value}")
