@@ -11,4 +11,7 @@ def describe_environment():
 env = describe_environment()
 print("Environment description:")
 for key, value in env.items():
-    print(f"{key}: \n   - {value}")
+    if isinstance(value, list):
+        print(key)
+    else:
+        print(value)
