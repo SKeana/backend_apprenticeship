@@ -14,4 +14,4 @@ for key, value in env.items():
     if isinstance(value, list):
         print(key)
     else:
-        print(value)
+        print(key,value)
