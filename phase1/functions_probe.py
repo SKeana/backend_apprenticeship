@@ -13,5 +13,7 @@ print("Environment description:")
 for key, value in env.items():
     if isinstance(value, list):
         print(key)
+        for item in value:
+            print("     -", item)
     else:
         print(key,value)
