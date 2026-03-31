@@ -1,8 +1,6 @@
-from pathlib import Path
-
-def filepath():
+def load_records():
     with open("records.txt") as f:
         lines = f.readlines()
         print(lines)
 
-filepath()
+load_records()
