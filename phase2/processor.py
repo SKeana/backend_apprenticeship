@@ -1,11 +1,16 @@
 def load_records():
     with open("records.txt") as f:
         lines = f.readlines()
-        lines = lines[0]
-        #print(lines)
-        parts = lines.strip().split(",") 
-        print(parts[0])
-        print(parts[1])
-        print(parts[2])
+        line = lines[0]
+
+        parts = line.strip().split(",")
+
+        record = {
+            "name": parts[0],
+            "age": int(parts[1]),
+            "role": parts[2]
+        }
+
+        print(record)
 
 load_records()
