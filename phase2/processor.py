@@ -24,6 +24,7 @@ def group_by_role(records):
     grouped = {}
 
     for record in records:
-        print(record)
+        role = record["role"]
+        print(role)
 
 group_by_role(records)
