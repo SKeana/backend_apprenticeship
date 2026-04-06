@@ -18,7 +18,7 @@ def load_records():
     return record_list   # ← give the result back
 
 records = load_records()
-print(records)
+#print(records)
 
 def group_by_role(records):
     grouped = {}
@@ -27,7 +27,7 @@ def group_by_role(records):
         role = record["role"]
         if role not in grouped:
             grouped[role] = []
-            print(role)
+            print(grouped)
 
 
 group_by_role(records)
