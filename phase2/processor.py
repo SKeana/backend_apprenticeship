@@ -1,6 +1,5 @@
 def load_records():
-    record_list = []   # ← create list ONCE
-    role_list = []
+    record_list = []
 
     with open("records.txt") as f:
         lines = f.readlines()
@@ -13,21 +12,27 @@ def load_records():
                 "age": int(parts[1]),
                 "role": parts[2]
             }
-            record_list.append(record)  # ← add to same list
+            record_list.append(record)
 
-    return record_list   # ← give the result back
+    return record_list
 
-records = load_records()
-#print(records)
 
 def group_by_role(records):
     grouped = {}
 
     for record in records:
         role = record["role"]
+
         if role not in grouped:
             grouped[role] = []
-            print(grouped)
+
+        grouped[role].append(record)
+
+    return grouped  
 
 
-group_by_role(records)
+# Run everything
+records = load_records()
+grouped_records = group_by_role(records)
+
+print(grouped_records) 
