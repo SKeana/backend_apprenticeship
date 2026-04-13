@@ -51,6 +51,19 @@ def filter_by_age(records, min_age):
 
     return filtered
 
+def group_filter_by_role(records, min_age):
+    grouped = {}
+
+    for record in records:
+        if record["age"] >= min_age:
+            role = record["role"]
+
+            if role not in grouped:
+                grouped[role] = []
+
+            grouped[role].append(record)
+
+    return grouped
 
 # Run everything
 records = load_records()
@@ -63,3 +76,5 @@ print("----")
 print(role_counts) 
 print("----")
 print(filter_by_age(records, 30))
+print("----")
+print(group_filter_by_role(records, 30))
