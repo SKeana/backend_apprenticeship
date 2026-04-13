@@ -42,6 +42,15 @@ def count_by_role(records):
 
     return counts
 
+def filter_by_age(records, min_age):
+    filtered = []
+
+    for record in records:
+        if record["age"] >= min_age:
+            filtered.append(record)
+
+    return filtered
+
 
 # Run everything
 records = load_records()
@@ -52,3 +61,5 @@ role_counts = count_by_role(records)
 print(grouped_records)
 print("----")
 print(role_counts) 
+print("----")
+print(filter_by_age(records, 30))
