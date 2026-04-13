@@ -27,12 +27,28 @@ def group_by_role(records):
             grouped[role] = []
 
         grouped[role].append(record)
+    return grouped
 
-    return grouped  
+def count_by_role(records):
+    counts = {}
+
+    for record in records:
+        role = record["role"]
+
+        if role not in counts:
+            counts[role] = 0
+
+        counts[role] += 1
+
+    return counts
 
 
 # Run everything
 records = load_records()
 grouped_records = group_by_role(records)
+role_counts = count_by_role(records)
 
-print(grouped_records) 
+
+print(grouped_records)
+print("----")
+print(role_counts) 
