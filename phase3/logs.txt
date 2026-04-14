@@ -1,0 +1,4 @@
+Shaun,Evoker,DPS,12500
+John,Mage,DPS,14200
+Shaun,Evoker,DPS,13200
+Anna,Priest,Healer,9800
