@@ -65,6 +65,17 @@ def group_filter_by_role(records, min_age):
 
     return grouped
 
+def oldest_per_role(records):
+    oldest = {}
+
+    for record in records:
+        role = record["role"]
+
+        if role not in oldest or record["age"] > oldest[role]["age"]:
+            oldest[role] = record
+
+    return oldest
+
 # Run everything
 records = load_records()
 grouped_records = group_by_role(records)
@@ -78,3 +89,5 @@ print("----")
 print(filter_by_age(records, 30))
 print("----")
 print(group_filter_by_role(records, 30))
+print("----")
+print(oldest_per_role(records))
