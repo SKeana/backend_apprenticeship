@@ -18,7 +18,21 @@ def load_log() -> list:
 
     return comps
 
+def get_runs_by_class(comps, class_name):
+    runs = []
+
+    for comp in comps:
+        if comp["class"] == class_name:
+            runs.append(comp)
+
+    return runs
+
 
 comps = load_log()
 for comp in comps:
     print(comp)
+print("---")
+runs = get_runs_by_class(comps, "Evoker")
+for run in runs:
+    print(run)
+print("---")
