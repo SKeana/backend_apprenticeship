@@ -20,4 +20,5 @@ def load_log() -> list:
 
 
 comps = load_log()
-print(comps)
+for comp in comps:
+    print(comp)
