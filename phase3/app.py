@@ -22,7 +22,7 @@ def get_runs_by_class(comps, class_name):
     runs = []
 
     for comp in comps:
-        if comp["class"] == class_name:
+        if comp["class"].lower() == class_name.lower():
             runs.append(comp)
 
     return runs
