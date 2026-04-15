@@ -27,6 +27,17 @@ def get_runs_by_class(comps, class_name):
 
     return runs
 
+def highest_dps_by_class(comps):
+    highest_dps = {}
+
+    for comp in comps:
+        class_name = comp["class"]
+        dps = comp["dps"]
+
+        if class_name not in highest_dps or dps > highest_dps[class_name]:
+            highest_dps[class_name] = dps
+
+    return highest_dps
 
 comps = load_log()
 for comp in comps:
@@ -36,3 +47,6 @@ runs = get_runs_by_class(comps, "Evoker")
 for run in runs:
     print(run)
 print("---")
+highest_dps = highest_dps_by_class(comps)
+for class_name, dps in highest_dps.items():
+    print(f"{class_name}: {dps}")
