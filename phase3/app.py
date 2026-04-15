@@ -50,3 +50,4 @@ print("---")
 highest_dps = highest_dps_by_class(comps)
 for class_name, dps in highest_dps.items():
     print(f"{class_name}: {dps}")
+print("---")
