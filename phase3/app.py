@@ -86,7 +86,7 @@ elif choice == "3":
     highest_dps = highest_dps_by_class(comps)
     print("Highest DPS by class:")
     for class_name, dps in highest_dps.items():
-        print(f"{class_name}: {dps}")
+        print(f"\t{class_name}: {dps}")
 
 elif choice == "4":
     average_dps = average_dps_by_class(comps)
