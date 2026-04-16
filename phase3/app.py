@@ -5,13 +5,13 @@ def load_log() -> list:
         lines = f.readlines()
 
         for line in lines:
-            roles = line.strip().split(",")
+            info = line.strip().split(",")
 
             group_comp = {
-                "player_name": roles[0],
-                "class": roles[1],
-                "role": roles[2],
-                "dps": int(roles[3])
+                "player_name": info[0],
+                "class": info[1],
+                "role": info[2],
+                "dps": int(info[3])
             }
 
             comps.append(group_comp)
