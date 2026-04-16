@@ -39,6 +39,24 @@ def highest_dps_by_class(comps):
 
     return highest_dps
 
+def average_dps_by_class(comps):
+    dps_sum = {}
+    count = {}
+
+    for comp in comps:
+        class_name = comp["class"]
+        dps = comp["dps"]
+
+        if class_name not in dps_sum:
+            dps_sum[class_name] = 0
+            count[class_name] = 0
+
+        dps_sum[class_name] += dps
+        count[class_name] += 1
+
+    average_dps = {class_name: dps_sum[class_name] / count[class_name] for class_name in dps_sum}
+    return average_dps
+
 comps = load_log()
 for comp in comps:
     print(comp)
@@ -47,7 +65,13 @@ runs = get_runs_by_class(comps, "Evoker")
 for run in runs:
     print(run)
 print("---")
+print("Highest DPS by class:")
 highest_dps = highest_dps_by_class(comps)
 for class_name, dps in highest_dps.items():
     print(f"{class_name}: {dps}")
+print("---")
+print("Average DPS by class:")
+average_dps = average_dps_by_class(comps)
+for class_name, avg_dps in average_dps.items():
+    print(f"{class_name}: {avg_dps:.2f}")
 print("---")
