@@ -5,18 +5,19 @@ def load_log() -> list:
         lines = f.readlines()
 
         for line in lines:
-            info = line.strip().split(",")
+            roles = line.strip().split(",")
 
-            group_comp = {
-                "player_name": info[0],
-                "class": info[1],
-                "role": info[2],
-                "dps": int(info[3])
+            comp = {
+                "player_name": roles[0],
+                "class": roles[1],
+                "role": roles[2],
+                "dps": int(roles[3])
             }
 
-            comps.append(group_comp)
+            comps.append(comp)
 
     return comps
+
 
 def get_runs_by_class(comps, class_name):
     runs = []
@@ -27,17 +28,18 @@ def get_runs_by_class(comps, class_name):
 
     return runs
 
+
 def highest_dps_by_class(comps):
     highest_dps = {}
 
     for comp in comps:
         class_name = comp["class"]
-        dps = comp["dps"]
 
-        if class_name not in highest_dps or dps > highest_dps[class_name]:
-            highest_dps[class_name] = dps
+        if class_name not in highest_dps or comp["dps"] > highest_dps[class_name]["dps"]:
+            highest_dps[class_name] = comp
 
     return highest_dps
+
 
 def average_dps_by_class(comps):
     dps_sum = {}
@@ -54,64 +56,72 @@ def average_dps_by_class(comps):
         dps_sum[class_name] += dps
         count[class_name] += 1
 
-    average_dps = {class_name: dps_sum[class_name] / count[class_name] for class_name in dps_sum}
+    average_dps = {
+        class_name: dps_sum[class_name] / count[class_name]
+        for class_name in dps_sum
+    }
+
     return average_dps
 
-choice = input("1. Show all logs\n2. Show runs by class\n3. Show highest DPS by class\n4. Show average DPS by class\n\tChoose an option: ")
 
-comps = load_log()
+# -------------------------
+# MAIN PROGRAM (CLI)
+# -------------------------
 
-if choice == "1":
-    
-    for comp in comps:
-        print(comp)
+def main():
+    comps = load_log()
 
-elif choice == "2":
     while True:
-        class_name = input("Enter class name: ")
+        choice = input(
+            "\n1. Show all logs\n"
+            "2. Show runs by class\n"
+            "3. Show highest DPS by class\n"
+            "4. Show average DPS by class\n"
+            "5. Exit\n"
+            "Choose an option: "
+        )
 
-        if not class_name:
-            print("Class name cannot be empty.")
-            continue
-        runs = get_runs_by_class(comps, class_name)
+        if choice == "1":
+            for comp in comps:
+                print(comp)
 
-        if not runs:
-            print("There is no class with that name in the logs. Try again.")
-        else:
-            for run in runs:
-                print(run)
+        elif choice == "2":
+            while True:
+                class_name = input("Enter class name: ")
+
+                if not class_name:
+                    print("Class name cannot be empty.")
+                    continue
+
+                runs = get_runs_by_class(comps, class_name)
+
+                if not runs:
+                    print("There is no class with that name in the logs. Try again.")
+                else:
+                    for run in runs:
+                        print(run)
+                    break
+
+        elif choice == "3":
+            highest = highest_dps_by_class(comps)
+            print("\nHighest DPS by class:")
+            for class_name, comp in highest.items():
+                print(f"{class_name}: {comp['player_name']} - {comp['dps']}")
+
+        elif choice == "4":
+            averages = average_dps_by_class(comps)
+            print("\nAverage DPS by class:")
+            for class_name, avg in averages.items():
+                print(f"{class_name}: {avg:.2f}")
+
+        elif choice == "5":
+            print("Exiting...")
             break
 
-elif choice == "3":
-    highest_dps = highest_dps_by_class(comps)
-    print("Highest DPS by class:")
-    for class_name, dps in highest_dps.items():
-        print(f"\t{class_name}: {dps}")
+        else:
+            print("Invalid choice.")
 
-elif choice == "4":
-    average_dps = average_dps_by_class(comps)
-    print("Average DPS by class:")
-    for class_name, avg_dps in average_dps.items():
-        print(f"{class_name}: {avg_dps:.2f}")
 
-else:
-    print("Invalid choice.")
-
-#comps = load_log()
-#for comp in comps:#
-#    print(comp)
-#print("---")
-#runs = get_runs_by_class(comps, "Evoker")
-#for run in runs:
-#    print(run)
-#print("---")
-#print("Highest DPS by class:")
-#highest_dps = highest_dps_by_class(comps)
-#for class_name, dps in highest_dps.items():
-#    print(f"{class_name}: {dps}")
-#print("---")
-#print("Average DPS by class:")
-#average_dps = average_dps_by_class(comps)
-#for class_name, avg_dps in average_dps.items():
-#    print(f"{class_name}: {avg_dps:.2f}")
-#print("---")
+# Run the program
+if __name__ == "__main__":
+    main()
