@@ -58,21 +58,21 @@ def average_dps_by_class(comps):
     return average_dps
 
 choice = input("1. Show all logs\n2. Show runs by class\n3. Show highest DPS by class\n4. Show average DPS by class\n\tChoose an option: ")
+
+comps = load_log()
+
 if choice == "1":
-    comps = load_log()
+    
     for comp in comps:
         print(comp)
 
 elif choice == "2":
-    comps = load_log()
-
     while True:
         class_name = input("Enter class name: ")
 
         if not class_name:
             print("Class name cannot be empty.")
             continue
-
         runs = get_runs_by_class(comps, class_name)
 
         if not runs:
@@ -83,14 +83,12 @@ elif choice == "2":
             break
 
 elif choice == "3":
-    comps = load_log()
     highest_dps = highest_dps_by_class(comps)
     print("Highest DPS by class:")
     for class_name, dps in highest_dps.items():
         print(f"{class_name}: {dps}")
 
 elif choice == "4":
-    comps = load_log()
     average_dps = average_dps_by_class(comps)
     print("Average DPS by class:")
     for class_name, avg_dps in average_dps.items():
