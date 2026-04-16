@@ -57,21 +57,55 @@ def average_dps_by_class(comps):
     average_dps = {class_name: dps_sum[class_name] / count[class_name] for class_name in dps_sum}
     return average_dps
 
-comps = load_log()
-for comp in comps:
-    print(comp)
-print("---")
-runs = get_runs_by_class(comps, "Evoker")
-for run in runs:
-    print(run)
-print("---")
-print("Highest DPS by class:")
-highest_dps = highest_dps_by_class(comps)
-for class_name, dps in highest_dps.items():
-    print(f"{class_name}: {dps}")
-print("---")
-print("Average DPS by class:")
-average_dps = average_dps_by_class(comps)
-for class_name, avg_dps in average_dps.items():
-    print(f"{class_name}: {avg_dps:.2f}")
-print("---")
+choice = input("1. Show all logs\n2. Show runs by class\n3. Show highest DPS by class\n4. Show average DPS by class\nChoose an option: ")
+if choice == "1":
+    comps = load_log()
+    for comp in comps:
+        print(comp)
+
+elif choice == "2":
+    class_name = input("Enter class name: ")
+    if not class_name:
+        print("Class name cannot be empty.")
+        exit(1)
+    else:
+        comps = load_log()
+        runs = get_runs_by_class(comps, class_name)
+        for run in runs:
+            print(run)
+
+elif choice == "3":
+    comps = load_log()
+    highest_dps = highest_dps_by_class(comps)
+    print("Highest DPS by class:")
+    for class_name, dps in highest_dps.items():
+        print(f"{class_name}: {dps}")
+
+elif choice == "4":
+    comps = load_log()
+    average_dps = average_dps_by_class(comps)
+    print("Average DPS by class:")
+    for class_name, avg_dps in average_dps.items():
+        print(f"{class_name}: {avg_dps:.2f}")
+
+else:
+    print("Invalid choice.")
+
+#comps = load_log()
+#for comp in comps:#
+#    print(comp)
+#print("---")
+#runs = get_runs_by_class(comps, "Evoker")
+#for run in runs:
+#    print(run)
+#print("---")
+#print("Highest DPS by class:")
+#highest_dps = highest_dps_by_class(comps)
+#for class_name, dps in highest_dps.items():
+#    print(f"{class_name}: {dps}")
+#print("---")
+#print("Average DPS by class:")
+#average_dps = average_dps_by_class(comps)
+#for class_name, avg_dps in average_dps.items():
+#    print(f"{class_name}: {avg_dps:.2f}")
+#print("---")
