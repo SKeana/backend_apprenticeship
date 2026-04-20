@@ -68,6 +68,16 @@ def average_dps_by_class(comps):
 
     return average_dps
 
+def highest_dps_by_class(comps):
+    highest_dps = {}
+
+    for comp in comps:
+        class_name = comp["class"]
+
+        if class_name not in highest_dps or comp["dps"] > highest_dps[class_name]["dps"]:
+            highest_dps[class_name] = comp
+    return highest_dps
+
 
 @app.get("/")
 def home():
@@ -95,3 +105,9 @@ def show_highest_dps():
 def show_average_dps():
     comps = load_log()
     return average_dps_by_class(comps)
+
+@app.get("/class/{class_name}/highest")
+def show_highest_dps_by_class(class_name: str):
+    comps = load_log()
+    highest_dps = highest_dps_by_class(comps)
+    return highest_dps.get(class_name, {"message": "Class not found"})
