@@ -33,19 +33,6 @@ def get_runs_by_class(comps, class_name):
 
     return runs
 
-
-def highest_dps_by_class(comps):
-    highest_dps = {}
-
-    for comp in comps:
-        class_name = comp["class"]
-
-        if class_name not in highest_dps or comp["dps"] > highest_dps[class_name]["dps"]:
-            highest_dps[class_name] = comp
-
-    return highest_dps
-
-
 def average_dps_by_class(comps):
     dps_sum = {}
     count = {}
