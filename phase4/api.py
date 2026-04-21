@@ -7,9 +7,7 @@ def load_log() -> list:
     comps = []
 
     with open("logs.txt") as f:
-        lines = f.readlines()
-
-        for line in lines:
+        for line in f:
             roles = line.strip().split(",")
 
             comp = {
@@ -33,38 +31,42 @@ def get_runs_by_class(comps, class_name):
 
     return runs
 
+
+def highest_dps_by_class(comps):
+    highest = {}
+
+    for comp in comps:
+        class_name = comp["class"]
+
+        if class_name not in highest or comp["dps"] > highest[class_name]["dps"]:
+            highest[class_name] = comp
+
+    return highest
+
+
 def average_dps_by_class(comps):
     dps_sum = {}
     count = {}
 
     for comp in comps:
         class_name = comp["class"]
-        dps = comp["dps"]
 
         if class_name not in dps_sum:
             dps_sum[class_name] = 0
             count[class_name] = 0
 
-        dps_sum[class_name] += dps
+        dps_sum[class_name] += comp["dps"]
         count[class_name] += 1
 
-    average_dps = {
+    return {
         class_name: dps_sum[class_name] / count[class_name]
         for class_name in dps_sum
     }
 
-    return average_dps
 
-def highest_dps_by_class(comps):
-    highest_dps = {}
-
-    for comp in comps:
-        class_name = comp["class"]
-
-        if class_name not in highest_dps or comp["dps"] > highest_dps[class_name]["dps"]:
-            highest_dps[class_name] = comp
-    return highest_dps
-
+# -------------------------
+# API ENDPOINTS
+# -------------------------
 
 @app.get("/")
 def home():
@@ -93,8 +95,23 @@ def show_average_dps():
     comps = load_log()
     return average_dps_by_class(comps)
 
+
+# ⭐ THIS is the important fix
 @app.get("/class/{class_name}/highest")
-def show_highest_dps_by_class(class_name: str):
+def show_highest_dps_for_class(class_name: str):
     comps = load_log()
-    highest_dps = highest_dps_by_class(comps)
-    return highest_dps.get(class_name, {"message": "Class not found"})
+
+    # 1. Filter first
+    runs = get_runs_by_class(comps, class_name)
+
+    if not runs:
+        return {"message": "Class not found"}
+
+    # 2. Find highest in filtered data
+    highest = runs[0]
+
+    for run in runs:
+        if run["dps"] > highest["dps"]:
+            highest = run
+
+    return highest
