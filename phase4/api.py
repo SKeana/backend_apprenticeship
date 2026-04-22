@@ -115,3 +115,19 @@ def show_highest_dps_for_class(class_name: str):
             highest = run
 
     return highest
+
+@app.get("/class/{class_name}/average")
+def show_average_dps_for_class(class_name: str):
+    comps = load_log()
+
+    # 1. Filter first
+    runs = get_runs_by_class(comps, class_name)
+
+    if not runs:
+        return {"message": "Class not found"}
+
+    # 2. Calculate average in filtered data
+    dps_sum = sum(run["dps"] for run in runs)
+    average = dps_sum / len(runs)
+
+    return {"class": class_name, "average_dps": average}
