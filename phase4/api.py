@@ -2,7 +2,6 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
-
 def load_log() -> list:
     comps = []
 
@@ -20,6 +19,8 @@ def load_log() -> list:
             comps.append(comp)
 
     return comps
+
+comps = load_log()
 
 
 def get_runs_by_class(comps, class_name):
@@ -75,39 +76,36 @@ def home():
 
 @app.get("/logs")
 def show_logs():
-    return load_log()
+    return comps
 
 
 @app.get("/class/{class_name}")
 def show_runs_by_class(class_name: str):
-    comps = load_log()
-    return get_runs_by_class(comps, class_name)
-
-
-@app.get("/highest-dps")
-def show_highest_dps():
-    comps = load_log()
-    return highest_dps_by_class(comps)
-
-
-@app.get("/average-dps")
-def show_average_dps():
-    comps = load_log()
-    return average_dps_by_class(comps)
-
-
-# ⭐ THIS is the important fix
-@app.get("/class/{class_name}/highest")
-def show_highest_dps_for_class(class_name: str):
-    comps = load_log()
-
-    # 1. Filter first
     runs = get_runs_by_class(comps, class_name)
 
     if not runs:
         raise HTTPException(status_code=404, detail="Class not found")
 
-    # 2. Find highest in filtered data
+    return runs
+
+
+@app.get("/highest-dps")
+def show_highest_dps():
+    return highest_dps_by_class(comps)
+
+
+@app.get("/average-dps")
+def show_average_dps():
+    return average_dps_by_class(comps)
+
+
+@app.get("/class/{class_name}/highest")
+def show_highest_dps_for_class(class_name: str):
+    runs = get_runs_by_class(comps, class_name)
+
+    if not runs:
+        raise HTTPException(status_code=404, detail="Class not found")
+
     highest = runs[0]
 
     for run in runs:
@@ -116,18 +114,18 @@ def show_highest_dps_for_class(class_name: str):
 
     return highest
 
+
 @app.get("/class/{class_name}/average")
 def show_average_dps_for_class(class_name: str):
-    comps = load_log()
-
-    # 1. Filter first
     runs = get_runs_by_class(comps, class_name)
 
     if not runs:
         raise HTTPException(status_code=404, detail="Class not found")
 
-    # 2. Calculate average in filtered data
     dps_sum = sum(run["dps"] for run in runs)
     average = dps_sum / len(runs)
 
-    return {"class": class_name, "average_dps": average}
+    return {
+        "class": class_name,
+        "average_dps": average
+    }
