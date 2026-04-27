@@ -1,4 +1,4 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
@@ -105,7 +105,7 @@ def show_highest_dps_for_class(class_name: str):
     runs = get_runs_by_class(comps, class_name)
 
     if not runs:
-        return {"message": "Class not found"}
+        raise HTTPException(status_code=404, detail="Class not found")
 
     # 2. Find highest in filtered data
     highest = runs[0]
@@ -124,7 +124,7 @@ def show_average_dps_for_class(class_name: str):
     runs = get_runs_by_class(comps, class_name)
 
     if not runs:
-        return {"message": "Class not found"}
+        raise HTTPException(status_code=404, detail="Class not found")
 
     # 2. Calculate average in filtered data
     dps_sum = sum(run["dps"] for run in runs)
