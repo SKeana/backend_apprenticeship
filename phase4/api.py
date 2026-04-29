@@ -64,6 +64,17 @@ def average_dps_by_class(comps):
         for class_name in dps_sum
     }
 
+def show_runs_by_class(class_name: str, min_dps: int = None):
+    runs = get_runs_by_class(comps, class_name)
+
+    if not runs:
+        raise HTTPException(status_code=404, detail="Class not found")
+
+    if min_dps is not None:
+        runs = [run for run in runs if run["dps"] >= min_dps]
+
+    return runs
+
 
 # -------------------------
 # API ENDPOINTS
