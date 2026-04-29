@@ -67,11 +67,17 @@ def average_dps_by_class(comps):
 def show_runs_by_class(class_name: str, min_dps: int = None):
     runs = get_runs_by_class(comps, class_name)
 
+# 1. Check if class exists at all
     if not runs:
         raise HTTPException(status_code=404, detail="Class not found")
 
+# 2. Apply filter
     if min_dps is not None:
         runs = [run for run in runs if run["dps"] >= min_dps]
+
+    # 3. Check if filter removed everything
+        if not runs:
+            raise HTTPException(status_code=404, detail="No runs match the filter")
 
     return runs
 
