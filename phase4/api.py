@@ -94,6 +94,22 @@ def average_dps_by_class(comps):
         for class_name in dps_sum
     }
 
+#-------------------------
+# MODELS 
+#-------------------------
+
+class Run(BaseModel):
+    player_name: str
+    class_name: str
+    role: str
+    dps: int
+class RunListResponse(BaseModel):
+    count: int
+    results: List[Run]
+
+class AverageResponse(BaseModel):
+    class_name: str
+    average_dps: float
 
 # -------------------------
 # API ENDPOINTS
