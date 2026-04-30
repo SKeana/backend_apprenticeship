@@ -2,6 +2,11 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
+
+# -------------------------
+# DATA LOADING
+# -------------------------
+
 def load_log() -> list:
     comps = []
 
@@ -20,17 +25,40 @@ def load_log() -> list:
 
     return comps
 
+
+# Load once (shared data)
 comps = load_log()
 
 
+# -------------------------
+# LOGIC FUNCTIONS
+# -------------------------
+
 def get_runs_by_class(comps, class_name):
-    runs = []
+    return [
+        comp for comp in comps
+        if comp["class"].lower() == class_name.lower()
+    ]
 
-    for comp in comps:
-        if comp["class"].lower() == class_name.lower():
-            runs.append(comp)
 
-    return runs
+def get_runs_by_class_filtered(comps, class_name, min_dps=None):
+    runs = get_runs_by_class(comps, class_name)
+
+    # 1. Check class exists
+    if not runs:
+        raise HTTPException(status_code=404, detail="Class not found")
+
+    # 2. Apply filter
+    if min_dps is not None:
+        runs = [run for run in runs if run["dps"] >= min_dps]
+
+        if not runs:
+            raise HTTPException(status_code=404, detail="No runs match the filter")
+
+    return {
+        "count": len(runs),
+        "results": runs
+    }
 
 
 def highest_dps_by_class(comps):
@@ -64,26 +92,6 @@ def average_dps_by_class(comps):
         for class_name in dps_sum
     }
 
-def show_runs_by_class(class_name: str, min_dps: int = None):
-    runs = get_runs_by_class(comps, class_name)
-
-# 1. Check if class exists at all
-    if not runs:
-        raise HTTPException(status_code=404, detail="Class not found")
-
-# 2. Apply filter
-    if min_dps is not None:
-        runs = [run for run in runs if run["dps"] >= min_dps]
-
-    # 3. Check if filter removed everything
-        if not runs:
-            raise HTTPException(status_code=404, detail="No runs match the filter")
-
-    return {
-        "count": len(runs),
-        "results": runs
-    }
-
 
 # -------------------------
 # API ENDPOINTS
@@ -96,17 +104,15 @@ def home():
 
 @app.get("/logs")
 def show_logs():
-    return comps
+    return {
+        "count": len(comps),
+        "results": comps
+    }
 
 
 @app.get("/class/{class_name}")
-def show_runs_by_class(class_name: str):
-    runs = get_runs_by_class(comps, class_name)
-
-    if not runs:
-        raise HTTPException(status_code=404, detail="Class not found")
-
-    return runs
+def show_runs_by_class(class_name: str, min_dps: int = None):
+    return get_runs_by_class_filtered(comps, class_name, min_dps)
 
 
 @app.get("/highest-dps")
@@ -142,10 +148,9 @@ def show_average_dps_for_class(class_name: str):
     if not runs:
         raise HTTPException(status_code=404, detail="Class not found")
 
-    dps_sum = sum(run["dps"] for run in runs)
-    average = dps_sum / len(runs)
+    avg = sum(run["dps"] for run in runs) / len(runs)
 
     return {
         "class": class_name,
-        "average_dps": average
+        "average_dps": avg
     }
