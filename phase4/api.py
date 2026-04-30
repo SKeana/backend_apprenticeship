@@ -79,7 +79,10 @@ def show_runs_by_class(class_name: str, min_dps: int = None):
         if not runs:
             raise HTTPException(status_code=404, detail="No runs match the filter")
 
-    return runs
+    return {
+        "count": len(runs),
+        "results": runs
+    }
 
 
 # -------------------------
