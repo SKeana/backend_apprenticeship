@@ -1,6 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 from typing import List
+from pathlib import Path
 
 app = FastAPI()
 
@@ -12,7 +13,9 @@ app = FastAPI()
 def load_log() -> list:
     comps = []
 
-    with open("logs.txt") as f:
+    file_path = Path(__file__).parent / "logs.txt"
+
+    with open(file_path) as f:
         for line in f:
             roles = line.strip().split(",")
 
