@@ -18,7 +18,7 @@ def load_log() -> list:
 
             comp = {
                 "player_name": roles[0],
-                "class": roles[1],
+                "class_name": roles[1],
                 "role": roles[2],
                 "dps": int(roles[3])
             }
@@ -39,7 +39,7 @@ comps = load_log()
 def get_runs_by_class(comps, class_name):
     return [
         comp for comp in comps
-        if comp["class"].lower() == class_name.lower()
+        if comp["class_name"].lower() == class_name.lower()
     ]
 
 
@@ -67,7 +67,7 @@ def highest_dps_by_class(comps):
     highest = {}
 
     for comp in comps:
-        class_name = comp["class"]
+        class_name = comp["class_name"]
 
         if class_name not in highest or comp["dps"] > highest[class_name]["dps"]:
             highest[class_name] = comp
@@ -80,7 +80,7 @@ def average_dps_by_class(comps):
     count = {}
 
     for comp in comps:
-        class_name = comp["class"]
+        class_name = comp["class_name"]
 
         if class_name not in dps_sum:
             dps_sum[class_name] = 0
@@ -128,7 +128,7 @@ def show_logs():
     }
 
 
-@app.get("/class/{class_name}")
+@app.get("/class/{class_name}", response_model=RunListResponse)
 def show_runs_by_class(class_name: str, min_dps: int = None):
     return get_runs_by_class_filtered(comps, class_name, min_dps)
 
@@ -143,7 +143,7 @@ def show_average_dps():
     return average_dps_by_class(comps)
 
 
-@app.get("/class/{class_name}/highest")
+@app.get("/class/{class_name}/highest", response_model=Run)
 def show_highest_dps_for_class(class_name: str):
     runs = get_runs_by_class(comps, class_name)
 
@@ -159,7 +159,7 @@ def show_highest_dps_for_class(class_name: str):
     return highest
 
 
-@app.get("/class/{class_name}/average")
+@app.get("/class/{class_name}/average", response_model=AverageResponse)
 def show_average_dps_for_class(class_name: str):
     runs = get_runs_by_class(comps, class_name)
 
@@ -169,6 +169,6 @@ def show_average_dps_for_class(class_name: str):
     avg = sum(run["dps"] for run in runs) / len(runs)
 
     return {
-        "class": class_name,
+        "class_name": class_name,
         "average_dps": avg
     }
