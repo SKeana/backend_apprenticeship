@@ -1,0 +1,1 @@
+this is what needed to run the app:- uvicorn api:app --reload
